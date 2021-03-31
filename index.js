@@ -43,14 +43,44 @@ class WaterPokemon extends Pokemon {
 }
 
 class Trainer {
-  constructor(name, theirPokemon) {
+  constructor(name) {
     this.name = name;
-    this.theirPokemon = theirPokemon;
+    this.theirPokemon = [];
   }
 
-  catch() {
-    return new Pokemon();
+  catch(name, hitPoints, attackDamage, sound, move, type) {
+    let newPoke;
+    switch (type) {
+      case "fire":
+        newPoke = new FirePokemon(name, hitPoints, attackDamage, sound, move);
+        break;
+      case "grass":
+        newPoke = new GrassPokemon(name, hitPoints, attackDamage, sound, move);
+        break;
+      case "water":
+        newPoke = new WaterPokemon(name, hitPoints, attackDamage, sound, move);
+        break;
+      default:
+        newPoke = new Pokemon(name, hitPoints, attackDamage, sound, move);
+        break;
+    }
+    this.theirPokemon.push(newPoke);
+    return this.theirPokemon;
   }
 }
 
-module.exports = { Pokemon, FirePokemon, GrassPokemon, WaterPokemon, Trainer };
+class Battle {
+  constructor(trainer1, trainer2) {
+    this.trainer1 = trainer1;
+    this.trainer2 = trainer2;
+  }
+}
+
+module.exports = {
+  Pokemon,
+  FirePokemon,
+  GrassPokemon,
+  WaterPokemon,
+  Trainer,
+  Battle,
+};

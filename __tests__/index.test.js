@@ -4,6 +4,7 @@ const {
   GrassPokemon,
   WaterPokemon,
   Trainer,
+  Battle,
 } = require("../index");
 
 describe("Pokemon", () => {
@@ -110,10 +111,48 @@ describe("Trainer", () => {
     expect(trainer instanceof Trainer).toBe(true);
   });
 
-  it("returns new pokemon when catch is invoked", () => {
-    const theirPokemon = new Pokemon();
-    const trainer = new Trainer("Ash", theirPokemon);
-
-    expect(trainer.catch() instanceof Pokemon).toBe(true);
+  it("returns an updated array with new pokemon when catch is invoked", () => {
+    const trainer = new Trainer("Ash");
+    expect(trainer.theirPokemon).toEqual([]);
+    trainer.catch("Squirtle", 3, 3, "squirtle", "torrent", "water");
+    expect(trainer.theirPokemon).toEqual([
+      {
+        name: "Squirtle",
+        hitPoints: 3,
+        attackDamage: 3,
+        sound: "squirtle",
+        move: "torrent",
+        type: "water",
+        strength: "fire",
+        weakness: "grass",
+      },
+    ]);
   });
 });
+
+describe("Battle", () => {
+  test("should calls the trainers with their chosen pokemon to battle", () => {
+    const ash = new Trainer("Ash");
+    ash.catch("Squirtle", 3, 3, "squirtle", "torrent", "water");
+    ash.catch("Bulbasaur", 3, 8, "saur", "overgrow", "grass");
+    const ashChosenPoke = ash.theirPokemon[1].name;
+    expect(ashChosenPoke).toBe("Bulbasaur");
+
+    const red = new Trainer("Red");
+    red.catch("Bulbasaur", 3, 8, "saur", "overgrow", "grass");
+    red.catch("Charmeleon", 4, 6, "cry", "blaze", "fire");
+    const redChosenPoke = red.theirPokemon[1].name;
+
+    const battle = new Battle(ash, ashChosenPoke, red, redChosenPoke);
+  });
+  test("should ", () => {});
+});
+
+// water   name: "Squirtle",
+//         hitPoints: 3,
+//         attackDamage: 3,
+//         sound: "squirtle",
+//         move: "torrent",
+//         type: "water",
+//         strength: "fire",
+//         weakness: "grass",
