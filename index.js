@@ -7,6 +7,14 @@ class Pokemon {
     this.move = move;
     this.type = "normal";
   }
+
+  talk() {
+    return this.sound;
+  }
+
+  useYourMove() {
+    return this.move;
+  }
 }
 
 class FirePokemon extends Pokemon {
@@ -34,4 +42,15 @@ class WaterPokemon extends Pokemon {
   }
 }
 
-module.exports = { Pokemon, FirePokemon, GrassPokemon, WaterPokemon };
+class Trainer {
+  constructor(name, theirPokemon) {
+    this.name = name;
+    this.theirPokemon = theirPokemon;
+  }
+
+  catch() {
+    return new Pokemon();
+  }
+}
+
+module.exports = { Pokemon, FirePokemon, GrassPokemon, WaterPokemon, Trainer };

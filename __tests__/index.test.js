@@ -3,6 +3,7 @@ const {
   FirePokemon,
   GrassPokemon,
   WaterPokemon,
+  Trainer,
 } = require("../index");
 
 describe("Pokemon", () => {
@@ -71,5 +72,48 @@ describe("Pokemon", () => {
 
       expect(pokemon.type).toBe("fire");
     });
+  });
+
+  describe("GrassPokemon", () => {
+    it("should return object containing grass type when initiating a grass pokemon", () => {
+      const pokemon = new GrassPokemon();
+
+      expect(pokemon.type).toBe("grass");
+    });
+  });
+
+  describe("WaterPokemon", () => {
+    it("should return object containing water type when initiating a water pokemon", () => {
+      const pokemon = new WaterPokemon();
+
+      expect(pokemon.type).toBe("water");
+    });
+  });
+  it("returns sound when talk is invoked", () => {
+    const pokemon = new WaterPokemon("Squirtle", 3, 3, "squirtle", "torrent");
+
+    expect(pokemon.talk()).toBe(pokemon.sound);
+  });
+
+  it("returns move when useYourMove is invoked", () => {
+    const pokemon = new WaterPokemon("Squirtle", 3, 3, "squirtle", "torrent");
+
+    expect(pokemon.useYourMove()).toBe(pokemon.move);
+  });
+});
+
+describe("Trainer", () => {
+  it("creates a trainer with name and their pokemon", () => {
+    const theirPokemon = new Pokemon();
+    const trainer = new Trainer("Ash", theirPokemon);
+
+    expect(trainer instanceof Trainer).toBe(true);
+  });
+
+  it("returns new pokemon when catch is invoked", () => {
+    const theirPokemon = new Pokemon();
+    const trainer = new Trainer("Ash", theirPokemon);
+
+    expect(trainer.catch() instanceof Pokemon).toBe(true);
   });
 });
