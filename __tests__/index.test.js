@@ -135,17 +135,70 @@ describe("Battle", () => {
     const ash = new Trainer("Ash");
     ash.catch("Squirtle", 3, 3, "squirtle", "torrent", "water");
     ash.catch("Bulbasaur", 3, 8, "saur", "overgrow", "grass");
-    const ashChosenPoke = ash.theirPokemon[1].name;
-    expect(ashChosenPoke).toBe("Bulbasaur");
+    const ashChosenPoke = ash.theirPokemon[1];
+    expect(ashChosenPoke.name).toBe("Bulbasaur");
 
     const red = new Trainer("Red");
     red.catch("Bulbasaur", 3, 8, "saur", "overgrow", "grass");
     red.catch("Charmeleon", 4, 6, "cry", "blaze", "fire");
-    const redChosenPoke = red.theirPokemon[1].name;
+    const redChosenPoke = red.theirPokemon[1];
 
     const battle = new Battle(ash, ashChosenPoke, red, redChosenPoke);
+    // expect(battle.length).toBe(4);
   });
-  test("should ", () => {});
+  test("should assign trainer1 to be attacker and trainer2 to be defender. It should also take the value of trainer1's Pokemon's attackDamage from Trainer 2's Pokemon's hitPoints.", () => {
+    const ash = new Trainer("Ash");
+    ash.catch("Squirtle", 3, 3, "squirtle", "torrent");
+    ash.catch("Bulbasaur", 3, 8, "saur", "overgrow");
+    const ashChosenPoke = ash.theirPokemon[1];
+
+    const red = new Trainer("Red");
+    red.catch("Bulbasaur", 3, 8, "saur", "overgrow");
+    red.catch("Charmeleon", 4, 6, "cry", "blaze");
+    const redChosenPoke = red.theirPokemon[1];
+
+    const battle = new Battle(ash, red);
+
+    const round1 = battle.fight(ashChosenPoke, redChosenPoke);
+
+    expect(round1).toBe(-4);
+  });
+
+  test("if defender strength is equal to attacking type then damage to the defender is x0.75", () => {
+    const ash = new Trainer("Ash");
+    ash.catch("Squirtle", 3, 3, "squirtle", "torrent", "water");
+    ash.catch("Bulbasaur", 3, 8, "saur", "overgrow", "grass");
+    const ashChosenPoke = ash.theirPokemon[1];
+
+    const red = new Trainer("Red");
+    red.catch("Bulbasaur", 3, 8, "saur", "overgrow", "grass");
+    red.catch("Charmeleon", 4, 6, "cry", "blaze", "fire");
+    const redChosenPoke = red.theirPokemon[1];
+
+    const battle = new Battle(ash, red);
+
+    const round1 = battle.fight(ashChosenPoke, redChosenPoke);
+
+    expect(round1).toBe(-2);
+  });
+
+  test("if defender is weak against the attacker's type then damage to the defender is x1.25", () => {
+    const ash = new Trainer("Ash");
+    ash.catch("Squirtle", 3, 3, "squirtle", "torrent", "water");
+    ash.catch("Bulbasaur", 3, 8, "saur", "overgrow", "grass");
+    const ashChosenPoke = ash.theirPokemon[1];
+
+    const red = new Trainer("Red");
+    red.catch("Bulbasaur", 3, 8, "saur", "overgrow", "grass");
+    red.catch("Squirtle", 4, 3, "squirtle", "torrent", "water");
+    const redChosenPoke = red.theirPokemon[1];
+
+    const battle = new Battle(ash, red);
+
+    const round1 = battle.fight(ashChosenPoke, redChosenPoke);
+
+    expect(round1).toBe(-6);
+  });
 });
 
 // water   name: "Squirtle",

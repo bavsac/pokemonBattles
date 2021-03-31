@@ -71,8 +71,21 @@ class Trainer {
 
 class Battle {
   constructor(trainer1, trainer2) {
-    this.trainer1 = trainer1;
-    this.trainer2 = trainer2;
+    this.attacker = trainer1;
+    this.defender = trainer2;
+  }
+
+  fight(trainer1Pokemon, trainer2Pokemon) {
+    let round1DefenderDamage =
+      trainer2Pokemon.hitPoints - trainer1Pokemon.attackDamage;
+    if (trainer2Pokemon.strength === trainer1Pokemon.type) {
+      round1DefenderDamage =
+        trainer2Pokemon.hitPoints - 0.75 * trainer1Pokemon.attackDamage;
+    } else if (trainer2Pokemon.weakness === trainer1Pokemon.type) {
+      round1DefenderDamage =
+        trainer2Pokemon.hitPoints - 1.25 * trainer1Pokemon.attackDamage;
+    }
+    return round1DefenderDamage;
   }
 }
 
