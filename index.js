@@ -1,3 +1,51 @@
+const inquirer = require('inquirer');
+
+const player1 = [
+  {
+    type: 'list',
+    name: 'trainer',
+    message: 'Please pick player 1',
+    choices: ['Ash', new inquirer.Separator(), 'Red']
+  }
+];
+
+const player2 = [
+  {
+    type: 'list',
+    name: 'trainer',
+    message: 'Please pick player 2',
+    choices: ['Ash', new inquirer.Separator(), 'Red']
+  }
+];
+const question = [
+  {
+    type: 'confirm',
+    name: 'battle',
+    message: 'Would you like to battle?'
+  }
+];
+
+let trainerData = {};
+const pickPlayer2 = () => {
+  return inquirer.prompt(player2).then((player2Response) => {
+    if (trainerData.player1 === player2Response.trainer) {
+      console.log('Players must be different. Please pick another player.');
+      pickPlayer2();
+    } else {
+      return player2Response;
+    }
+  });
+};
+
+inquirer.prompt(question).then((response) => {
+  if (response.battle) {
+    inquirer.prompt(player1).then((player1Response) => {
+      trainerData.player1 = player1Response.trainer;
+      pickPlayer2().then((response) => console.log(response));
+    });
+  }
+});
+
 class Pokemon {
   constructor(name, hitPoints, attackDamage, sound, move) {
     this.name = name;
