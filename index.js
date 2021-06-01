@@ -3,16 +3,17 @@ const inquirer = require('inquirer');
 const player1 = [
   {
     type: 'list',
-    name: 'trainer',
+    name: 'player1',
     message: 'Please pick player 1',
     choices: ['Ash', new inquirer.Separator(), 'Red']
   }
 ];
+//logic to make some name options unavailable? then do the player 2 q?
 
 const player2 = [
   {
     type: 'list',
-    name: 'trainer',
+    name: 'player2',
     message: 'Please pick player 2',
     choices: ['Ash', new inquirer.Separator(), 'Red']
   }
@@ -28,11 +29,11 @@ const question = [
 let trainerData = {};
 const pickPlayer2 = () => {
   return inquirer.prompt(player2).then((player2Response) => {
-    if (trainerData.player1 === player2Response.trainer) {
+    if (trainerData.player1 === player2Response.player2) {
       console.log('Players must be different. Please pick another player.');
       pickPlayer2();
     } else {
-      return player2Response;
+      trainerData.player2 = player2Response.player2;
     }
   });
 };
@@ -40,8 +41,8 @@ const pickPlayer2 = () => {
 inquirer.prompt(question).then((response) => {
   if (response.battle) {
     inquirer.prompt(player1).then((player1Response) => {
-      trainerData.player1 = player1Response.trainer;
-      pickPlayer2().then((response) => console.log(response));
+      trainerData.player1 = player1Response.player1;
+      pickPlayer2().then(() => console.log(trainerData));
     });
   }
 });
