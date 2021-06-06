@@ -18,7 +18,7 @@ const player2 = [
     choices: ['Ash', new inquirer.Separator(), 'Red']
   }
 ];
-const question = [
+const startBattle = [
   {
     type: 'confirm',
     name: 'battle',
@@ -26,23 +26,28 @@ const question = [
   }
 ];
 
-let trainerData = {};
-const pickPlayer2 = () => {
-  return inquirer.prompt(player2).then((player2Response) => {
+let trainerData = { player1: '', player2: '' };
+
+const pickPlayer2 = async () => {
+  const data = await inquirer.prompt(player2).then((player2Response) => {
     if (trainerData.player1 === player2Response.player2) {
       console.log('Players must be different. Please pick another player.');
-      pickPlayer2();
+      return pickPlayer2();
     } else {
       trainerData.player2 = player2Response.player2;
+      return trainerData;
     }
   });
+  return data;
 };
 
-inquirer.prompt(question).then((response) => {
+inquirer.prompt(startBattle).then((response) => {
   if (response.battle) {
     inquirer.prompt(player1).then((player1Response) => {
       trainerData.player1 = player1Response.player1;
-      pickPlayer2().then(() => console.log(trainerData));
+      pickPlayer2().then((data) => {
+        console.log(data, '<<data', trainerData);
+      });
     });
   }
 });
